@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YaD.Lib", "YaD.Lib\YaD.Lib.csproj", "{B399CCD2-3130-4443-AFDB-BBF20CD4E1ED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YaD.UI.CLI", "YaD.UI.CLI\YaD.UI.CLI.csproj", "{9FF70223-3A0C-44E8-B086-86B88F295173}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YaD.Tests", "YaD.Tests\YaD.Tests.csproj", "{A4DB1BEA-C8B6-4091-A5ED-8EBFA02FEA2E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B399CCD2-3130-4443-AFDB-BBF20CD4E1ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B399CCD2-3130-4443-AFDB-BBF20CD4E1ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B399CCD2-3130-4443-AFDB-BBF20CD4E1ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B399CCD2-3130-4443-AFDB-BBF20CD4E1ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9FF70223-3A0C-44E8-B086-86B88F295173}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FF70223-3A0C-44E8-B086-86B88F295173}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FF70223-3A0C-44E8-B086-86B88F295173}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FF70223-3A0C-44E8-B086-86B88F295173}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4DB1BEA-C8B6-4091-A5ED-8EBFA02FEA2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4DB1BEA-C8B6-4091-A5ED-8EBFA02FEA2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4DB1BEA-C8B6-4091-A5ED-8EBFA02FEA2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4DB1BEA-C8B6-4091-A5ED-8EBFA02FEA2E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
