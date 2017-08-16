@@ -8,5 +8,7 @@ namespace YaD.Lib
 {
     public interface IDataApiClient
     {
+        Task<PlaylistDto> GetPlaylist(String userId, String playlistId);
+        Task<AlbumDto> GetAlbum(String albumId);
     }
 }

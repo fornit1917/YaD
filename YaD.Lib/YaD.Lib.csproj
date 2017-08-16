@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiClient\Dto.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="ApiClient\IDataApiClient.cs" />
     <Compile Include="PageInfo.cs" />

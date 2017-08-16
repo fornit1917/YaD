@@ -21,12 +21,12 @@ namespace YaD.Lib
             this.apiClient = apiClient;
         }
 
-        public Task<PageInfo> GetPageInfoAsync(String url)
+        public async Task<PageInfo> GetPageInfoAsync(String url)
         {
             UrlParams urlParams = urlParser.Parse(url);
             if (urlParams == null)
             {
-                return Task.FromResult<PageInfo>(null);
+                return null;
             }
 
             PageInfo pageInfo = null;
@@ -34,12 +34,25 @@ namespace YaD.Lib
             {
                 case PageType.Album:
                     UrlParamsAlbum urlParamsAlbum = urlParams as UrlParamsAlbum;
-                    pageInfo = new PageInfo() { Title = String.Format("Album: {0}", urlParamsAlbum.AlbumId) };
+                    AlbumDto albumDto = await apiClient.GetAlbum(urlParamsAlbum.AlbumId);
+                    pageInfo = new PageInfo()
+                    {
+                        TracklistOwner = albumDto.Artist,
+                        TracklistTitle = albumDto.Title,
+                        Image = albumDto.Image,
+                    };
                     break;
                 case PageType.Playlist:
                     UrlParamsPlaylist urlParamsPlaylist = urlParams as UrlParamsPlaylist;
-                    pageInfo = new PageInfo() { Title = String.Format("Playlist: {0}, {1}", urlParamsPlaylist.UserId, urlParamsPlaylist.PlaylistId) };
+                    PlaylistDto playlistDto = await apiClient.GetPlaylist(urlParamsPlaylist.UserId, urlParamsPlaylist.PlaylistId);
+                    pageInfo = new PageInfo()
+                    {
+                        TracklistOwner = playlistDto.Owner,
+                        TracklistTitle = playlistDto.Title,
+                        Image = playlistDto.Image,
+                    };
                     break;
+                    /*
                 case PageType.Artist:
                     UrlParamsArtist urlParamsArtist = urlParams as UrlParamsArtist;
                     pageInfo = new PageInfo() { Title = String.Format("Artist: {0}", urlParamsArtist.ArtistId) };
@@ -48,9 +61,10 @@ namespace YaD.Lib
                     UrlParamsUser urlParamsUser = urlParams as UrlParamsUser;
                     pageInfo = new PageInfo() { Title = String.Format("User: {0}", urlParamsUser.UserId) };
                     break;
+                    */
             }
 
-            return Task.FromResult<PageInfo>(pageInfo);
+            return pageInfo;
         }
     }
 }

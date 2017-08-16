@@ -6,7 +6,16 @@ using System.Threading.Tasks;
 
 namespace YaD.Lib
 {
-    class YandexDataApiClient : IDataApiClient
+    public class YandexDataApiClient : IDataApiClient
     {
+        public async Task<AlbumDto> GetAlbum(string albumId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<PlaylistDto> GetPlaylist(string userId, string playlistId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

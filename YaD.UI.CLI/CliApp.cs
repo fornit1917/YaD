@@ -35,7 +35,7 @@ namespace YaD.UI.CLI
                 return;
             }
 
-            Console.WriteLine("Page: {0}", pageInfo.Title);
+            Console.WriteLine("Page: {0}", pageInfo.TracklistTitle);
         }
     }
 }
