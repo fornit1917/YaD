@@ -13,6 +13,9 @@ namespace YaD.UI.CLI
 
         static void Main(string[] args)
         {
+            Test();
+            Console.ReadLine();
+            /*
             while (true)
             {
                 Console.Write("Enter URL: ");
@@ -24,6 +27,26 @@ namespace YaD.UI.CLI
 
                 ProcessUrl(url);
             }
+            */
+        }
+
+        static async void Test()
+        {
+            String url = "https://music.yandex.ru/album/2678307";
+            PageInfo pageInfo = await pageInfoRetriever.GetPageInfoAsync(url);
+            Console.WriteLine("Image: " + pageInfo.Image);
+            Console.WriteLine("Owner: " + pageInfo.TracklistOwner);
+            Console.WriteLine("Title: " + pageInfo.TracklistTitle);
+
+            Console.WriteLine("---------------------");
+
+            url = "https://music.yandex.ru/users/vit.fornit.1917/playlists/1003";
+            pageInfo = await pageInfoRetriever.GetPageInfoAsync(url);
+            Console.WriteLine("Image: " + pageInfo.Image);
+            Console.WriteLine("Owner: " + pageInfo.TracklistOwner);
+            Console.WriteLine("Title: " + pageInfo.TracklistTitle);
+
+            Console.ReadLine();
         }
 
         static async void ProcessUrl(String url)
