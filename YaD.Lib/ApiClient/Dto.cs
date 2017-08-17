@@ -19,4 +19,17 @@ namespace YaD.Lib
         public String Artist { get; set; }
         public String Title { get; set; }
     }
+
+    public class UserDto
+    {
+        public String Login { get; set; }
+        public String Name { get; set; }
+        public String Image { get; set; }
+    }
+
+    public class ArtistDto
+    {
+        public String Name { get; set; }
+        public String Image { get; set; }
+    }
 }

@@ -19,6 +19,15 @@ namespace YaD.Tests.Mocks
             };
         }
 
+        public async Task<ArtistDto> GetArtist(string artistId)
+        {
+            return new ArtistDto()
+            {
+                Name = artistId,
+                Image = $"http://test.com/{artistId}",
+            };
+        }
+
         public async Task<PlaylistDto> GetPlaylist(string userId, string playlistId)
         {
             return new PlaylistDto()
@@ -26,6 +35,16 @@ namespace YaD.Tests.Mocks
                 Title = $"{userId} - ${playlistId}",
                 Owner = userId,
                 Image = $"http://test.com/{userId}/{playlistId}"
+            };
+        }
+
+        public async Task<UserDto> GetUser(string userId)
+        {
+            return new UserDto()
+            {
+                Login = userId,
+                Name = $"Name - {userId}",
+                Image = $"http://test.com/{userId}",
             };
         }
     }

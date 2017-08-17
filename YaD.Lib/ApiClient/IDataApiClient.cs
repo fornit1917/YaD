@@ -10,5 +10,7 @@ namespace YaD.Lib
     {
         Task<PlaylistDto> GetPlaylist(String userId, String playlistId);
         Task<AlbumDto> GetAlbum(String albumId);
+        Task<UserDto> GetUser(String userId);
+        Task<ArtistDto> GetArtist(String artistId);
     }
 }

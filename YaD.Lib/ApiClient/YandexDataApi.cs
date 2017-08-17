@@ -35,6 +35,29 @@ namespace YaD.Lib
             };
         }
 
+        public async Task<UserDto> GetUser(string userId)
+        {
+            String url = $"https://music.yandex.ru/handlers/library.jsx?owner={userId}&filter=tracks&likeFilter=favorite&sort=&dir=&lang=ru&external-domain=music.yandex.ru&overembed=false&ncrnd=0.7220692948046592";
+            JObject data = await RequestJsonObject(url);
+            return new UserDto()
+            {
+                Login = userId,
+                Name = (String)data["owner"]["name"],
+                Image = "https://yapic.yandex.ru/get/" + (String)data["owner"]["uid"] + "/islands-retina-middle",
+            };
+        }
+
+        public async Task<ArtistDto> GetArtist(string artistId)
+        {
+            String url = $"https://music.yandex.ru/handlers/artist.jsx?artist={artistId}&what=&sort=&dir=&lang=ru&external-domain=music.yandex.ru&overembed=false&ncrnd=0.329131147428392";
+            JObject data = await RequestJsonObject(url);
+            return new ArtistDto()
+            {
+                Name = (String)data["artist"]["name"],
+                Image = GetImageUrl((String)data["artist"]["cover"]["uri"]),
+            };
+        }
+
         private HttpWebRequest CreateRequest(String url)
         {
             HttpWebRequest req = (HttpWebRequest)WebRequest.Create(url);

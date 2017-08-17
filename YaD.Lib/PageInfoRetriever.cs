@@ -52,16 +52,29 @@ namespace YaD.Lib
                         Image = playlistDto.Image,
                     };
                     break;
-                    /*
+                
                 case PageType.Artist:
                     UrlParamsArtist urlParamsArtist = urlParams as UrlParamsArtist;
-                    pageInfo = new PageInfo() { Title = String.Format("Artist: {0}", urlParamsArtist.ArtistId) };
+                    ArtistDto artistDto = await apiClient.GetArtist(urlParamsArtist.ArtistId);
+                    pageInfo = new PageInfo()
+                    {
+                        TracklistOwner = artistDto.Name,
+                        TracklistTitle = "All tracks",
+                        Image = artistDto.Image,
+                    };
                     break;
+                
                 case PageType.User:
                     UrlParamsUser urlParamsUser = urlParams as UrlParamsUser;
-                    pageInfo = new PageInfo() { Title = String.Format("User: {0}", urlParamsUser.UserId) };
+                    UserDto userDto = await apiClient.GetUser(urlParamsUser.UserId);
+                    pageInfo = new PageInfo()
+                    {
+                        TracklistOwner = $"{userDto.Name} / {userDto.Login}",
+                        TracklistTitle = "All user tracks",
+                        Image = userDto.Image,
+                    };
                     break;
-                    */
+                    
             }
 
             return pageInfo;

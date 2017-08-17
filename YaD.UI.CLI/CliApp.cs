@@ -46,6 +46,22 @@ namespace YaD.UI.CLI
             Console.WriteLine("Owner: " + pageInfo.TracklistOwner);
             Console.WriteLine("Title: " + pageInfo.TracklistTitle);
 
+            Console.WriteLine("----------------------");
+
+            url = "https://music.yandex.ru/users/vit.fornit.1917/tracks";
+            pageInfo = await pageInfoRetriever.GetPageInfoAsync(url);
+            Console.WriteLine("Image: " + pageInfo.Image);
+            Console.WriteLine("Owner: " + pageInfo.TracklistOwner);
+            Console.WriteLine("Title: " + pageInfo.TracklistTitle);
+
+            Console.WriteLine("----------------------");
+
+            url = "https://music.yandex.ru/artist/36825";
+            pageInfo = await pageInfoRetriever.GetPageInfoAsync(url);
+            Console.WriteLine("Image: " + pageInfo.Image);
+            Console.WriteLine("Owner: " + pageInfo.TracklistOwner);
+            Console.WriteLine("Title: " + pageInfo.TracklistTitle);
+
             Console.ReadLine();
         }
 
