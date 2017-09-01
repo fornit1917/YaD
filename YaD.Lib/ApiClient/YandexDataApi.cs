@@ -15,11 +15,33 @@ namespace YaD.Lib
         {
             String url = $"https://music.yandex.ru/handlers/album.jsx?album={albumId}&lang=ru&external-domain=music.yandex.ru&overembed=false&ncrnd=0.3792734650109968";
             JObject data = await RequestJsonObject(url);
+
+            TrackDto[] tracks = new TrackDto[(int)data["trackCount"]];
+            int i = 0;
+            foreach (var volume in data["volumes"])
+            {
+                foreach (var track in volume)
+                {
+                    tracks[i] = new TrackDto()
+                    {
+                        Id = Convert.ToInt32(track["id"]),
+                        Title = (String)track["title"],
+                        Artist = String.Join(" & ", from a in track["artists"] select a["name"]),
+                        AlbumTitle = (String)data["title"],
+                        AlbumYear = (int)data["year"],
+                    };
+                    i++;
+                }
+
+            }
+
             return new AlbumDto()
             {
                 Image = GetImageUrl((String)data["coverUri"]),
                 Title = (String)data["title"],
                 Artist = String.Join(" & ", from a in data["artists"] select a["name"]),
+                Year = (int)data["year"],
+                Tracks = tracks,
             };
         }
 
@@ -32,6 +54,8 @@ namespace YaD.Lib
                 Image = GetImageUrl((String)data["playlist"]["ogImage"]),
                 Owner = (String)data["playlist"]["owner"]["name"],
                 Title = (String)data["playlist"]["title"],
+                TrackIds = GetTrackIdsFromJToken(data["playlist"]["trackIds"]),
+                Tracks = GetTracksFromJToken(data["playlist"]["tracks"]),
             };
         }
 
@@ -44,17 +68,22 @@ namespace YaD.Lib
                 Login = userId,
                 Name = (String)data["owner"]["name"],
                 Image = "https://yapic.yandex.ru/get/" + (String)data["owner"]["uid"] + "/islands-retina-middle",
+                TrackIds = GetTrackIdsFromJToken(data["trackIds"]),
+                Tracks = GetTracksFromJToken(data["tracks"]),
             };
         }
 
         public async Task<ArtistDto> GetArtist(string artistId)
         {
-            String url = $"https://music.yandex.ru/handlers/artist.jsx?artist={artistId}&what=&sort=&dir=&lang=ru&external-domain=music.yandex.ru&overembed=false&ncrnd=0.329131147428392";
+            String url = $"https://music.yandex.ru/handlers/artist.jsx?artist={artistId}&what=tracks&sort=&dir=&lang=ru&external-domain=music.yandex.ru&overembed=false&ncrnd=0.329131147428392";
             JObject data = await RequestJsonObject(url);
+
             return new ArtistDto()
             {
                 Name = (String)data["artist"]["name"],
                 Image = GetImageUrl((String)data["artist"]["cover"]["uri"]),
+                TrackIds = GetTrackIdsFromJToken(data["trackIds"]),
+                Tracks = GetTracksFromJToken(data["tracks"]),
             };
         }
 
@@ -91,6 +120,28 @@ namespace YaD.Lib
         private String GetImageUrl(String template)
         {
             return "https://" + template.Replace("/%%", "/200x200");
+        }
+
+        private TrackDto[] GetTracksFromJToken(JToken data)
+        {
+            return (
+                from t in data
+                let albums = t["albums"]
+                let album = albums != null && albums.Count() > 0 ? albums[0] : null
+                select new TrackDto()
+                {
+                    Id = Convert.ToInt32(t["id"]),
+                    Title = (String)t["title"],
+                    Artist = String.Join(" & ", from a in t["artists"] select a["name"]),
+                    AlbumTitle = album == null ? null : (String)album["title"],
+                    AlbumYear = album == null || album["year"] == null ? 0 : (int)album["year"],
+                }
+             ).ToArray();
+        }
+
+        private int[] GetTrackIdsFromJToken(JToken data)
+        {
+            return (from tId in data select Convert.ToInt32(((String)tId).Split(':')[0])).ToArray();
         }
     }
 }
