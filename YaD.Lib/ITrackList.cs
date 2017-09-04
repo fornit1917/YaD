@@ -8,5 +8,6 @@ namespace YaD.Lib
 {
     public interface ITrackList : IEnumerable<TrackDto>
     {
+        List<TrackDto> GetRange(int index, int count);
     }
 }

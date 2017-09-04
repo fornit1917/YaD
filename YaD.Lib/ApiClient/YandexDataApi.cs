@@ -136,5 +136,10 @@ namespace YaD.Lib
         {
             return (from tId in data select Convert.ToInt32(((String)tId).Split(':')[0])).ToArray();
         }
+
+        public List<TrackDto> GetTracks(int[] trackIds)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

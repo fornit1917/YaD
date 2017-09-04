@@ -38,6 +38,21 @@ namespace YaD.Tests.Mocks
             };
         }
 
+        public List<TrackDto> GetTracks(int[] trackIds)
+        {
+            return (
+                from id in trackIds
+                select new TrackDto()
+                {
+                    AlbumTitle = $"Some Album",
+                    AlbumYear = 2017,
+                    Artist = "Some Artist",
+                    Id = id,
+                    Title = $"Track {id}",
+                }
+            ).ToList();
+        }
+
         public async Task<UserDto> GetUser(string userId)
         {
             return new UserDto()

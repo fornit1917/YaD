@@ -21,6 +21,11 @@ namespace YaD.Lib
             return tracks.GetEnumerator();
         }
 
+        public List<TrackDto> GetRange(int index, int count)
+        {
+            return tracks.GetRange(index, count);
+        }
+
         IEnumerator IEnumerable.GetEnumerator()
         {
             return tracks.GetEnumerator();
