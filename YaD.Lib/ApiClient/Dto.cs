@@ -12,7 +12,7 @@ namespace YaD.Lib
         public String Owner { get; set; }
         public String Title { get; set; }
         public int[] TrackIds { get; set; }
-        public TrackDto[] Tracks { get; set; }
+        public List<TrackDto> Tracks { get; set; }
     }
 
     public class AlbumDto
@@ -21,7 +21,7 @@ namespace YaD.Lib
         public String Artist { get; set; }
         public String Title { get; set; }
         public int Year { get; set; }
-        public TrackDto[] Tracks { get; set; }
+        public List<TrackDto> Tracks { get; set; }
     }
 
     public class UserDto
@@ -30,7 +30,7 @@ namespace YaD.Lib
         public String Name { get; set; }
         public String Image { get; set; }
         public int[] TrackIds { get; set; }
-        public TrackDto[] Tracks { get; set; }
+        public List<TrackDto> Tracks { get; set; }
     }
 
     public class ArtistDto
@@ -38,7 +38,7 @@ namespace YaD.Lib
         public String Name { get; set; }
         public String Image { get; set; }
         public int[] TrackIds { get; set; }
-        public TrackDto[] Tracks { get; set; }
+        public List<TrackDto> Tracks { get; set; }
     }
 
     public class TrackDto

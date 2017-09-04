@@ -9,30 +9,29 @@ namespace YaD.Lib
 {
     class TracksSimpleIterator : ITracksIterator
     {
-        private TrackDto[] tracks;
+        private List<TrackDto> tracks;
+        private IEnumerator<TrackDto> enumerator;
 
-        public TracksSimpleIterator(TrackDto[] tracks)
+        public TracksSimpleIterator(List<TrackDto> tracks)
         {
             this.tracks = tracks;
+            enumerator = tracks.GetEnumerator();
         }
 
-        public TrackDto Current => throw new NotImplementedException();
+        public TrackDto Current => enumerator.Current;
 
-        object IEnumerator.Current => throw new NotImplementedException();
+        object IEnumerator.Current => enumerator.Current;
 
-        public void Dispose()
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool MoveNext()
-        {
-            throw new NotImplementedException();
-        }
+        public bool MoveNext() => enumerator.MoveNext();
 
         public void Reset()
         {
-            throw new NotImplementedException();
+            enumerator.Reset();
+        }
+
+        public void Dispose()
+        {
+            enumerator.Dispose();
         }
     }
 }

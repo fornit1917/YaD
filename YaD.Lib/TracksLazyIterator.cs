@@ -13,7 +13,7 @@ namespace YaD.Lib
         private int[] trackIds;
         private Dictionary<int, TrackDto> tracksMap;
 
-        public TracksLazyIterator(int[] trackIds, TrackDto[] tracks, IDataApiClient apiClient)
+        public TracksLazyIterator(int[] trackIds, List<TrackDto> tracks, IDataApiClient apiClient)
         {
             this.trackIds = trackIds;
 

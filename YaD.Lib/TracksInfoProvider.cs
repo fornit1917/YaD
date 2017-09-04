@@ -15,17 +15,17 @@ namespace YaD.Lib
 
         public int TotalCount { get { return totalCount; } }
 
-        public TracksInfoProvider(TrackDto[] tracks)
+        public TracksInfoProvider(List<TrackDto> tracks)
         {
-            totalCount = tracks.Length;
+            totalCount = tracks.Count;
             hasAllData = true;
             iterator = new TracksSimpleIterator(tracks);
         }
 
-        public TracksInfoProvider(int[] trackIds, TrackDto[] tracks, IDataApiClient apiClient)
+        public TracksInfoProvider(int[] trackIds, List<TrackDto> tracks, IDataApiClient apiClient)
         {
             totalCount = trackIds.Length;
-            hasAllData = this.totalCount == tracks.Length;
+            hasAllData = this.totalCount == tracks.Count;
             if (hasAllData)
             {
                 iterator = new TracksSimpleIterator(tracks);

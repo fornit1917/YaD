@@ -34,7 +34,7 @@ namespace YaD.Lib
                              Artist = String.Join(" & ", from a in track["artists"] select a["name"]),
                              AlbumTitle = title,
                              AlbumYear = year,
-                         }).ToArray(),
+                         }).ToList(),
             };
         }
 
@@ -115,7 +115,7 @@ namespace YaD.Lib
             return "https://" + template.Replace("/%%", "/200x200");
         }
 
-        private TrackDto[] GetTracksFromJToken(JToken data)
+        private List<TrackDto> GetTracksFromJToken(JToken data)
         {
             return (
                 from t in data
@@ -129,7 +129,7 @@ namespace YaD.Lib
                     AlbumTitle = album == null ? null : (String)album["title"],
                     AlbumYear = album == null || album["year"] == null ? 0 : (int)album["year"],
                 }
-             ).ToArray();
+             ).ToList();
         }
 
         private int[] GetTrackIdsFromJToken(JToken data)

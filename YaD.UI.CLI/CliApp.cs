@@ -32,12 +32,29 @@ namespace YaD.UI.CLI
 
         static async void Test()
         {
-            String url = "https://music.yandex.ru/album/2678307";
+            String url = "https://music.yandex.ru/album/4413792";
             PageInfo pageInfo = await pageInfoRetriever.GetPageInfoAsync(url);
             
             Console.WriteLine("Image: " + pageInfo.Image);
             Console.WriteLine("Owner: " + pageInfo.TracklistOwner);
             Console.WriteLine("Title: " + pageInfo.TracklistTitle);
+
+            Console.WriteLine("Tracks: ");
+            Console.WriteLine();
+            foreach (var track in pageInfo.Tracks)
+            {
+                Console.WriteLine(track.Title);
+            }
+            Console.WriteLine();
+
+            pageInfo.Tracks.GetEnumerator().Reset();
+            Console.WriteLine("Tracks: ");
+            Console.WriteLine();
+            foreach (var track in pageInfo.Tracks)
+            {
+                Console.WriteLine(track.Title);
+            }
+            Console.WriteLine();
 
             Console.WriteLine("---------------------");
 
