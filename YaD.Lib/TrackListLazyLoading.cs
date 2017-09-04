@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace YaD.Lib
 {
-    class TracksLazyIterator : ITracksIterator
+    class TrackListLazyLoading : ITrackList
     {
         private IDataApiClient apiClient;
         private int[] trackIds;
         private Dictionary<int, TrackDto> tracksMap;
 
-        public TracksLazyIterator(int[] trackIds, List<TrackDto> tracks, IDataApiClient apiClient)
+        public TrackListLazyLoading(int[] trackIds, List<TrackDto> tracks, IDataApiClient apiClient)
         {
             this.trackIds = trackIds;
 
@@ -24,21 +24,12 @@ namespace YaD.Lib
             }
         }
 
-        public TrackDto Current => throw new NotImplementedException();
-
-        object IEnumerator.Current => throw new NotImplementedException();
-
-        public void Dispose()
+        public IEnumerator<TrackDto> GetEnumerator()
         {
             throw new NotImplementedException();
         }
 
-        public bool MoveNext()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Reset()
+        IEnumerator IEnumerable.GetEnumerator()
         {
             throw new NotImplementedException();
         }

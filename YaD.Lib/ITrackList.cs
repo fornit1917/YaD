@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace YaD.Lib
 {
-    interface ITracksIterator : IEnumerator<TrackDto>
+    public interface ITrackList : IEnumerable<TrackDto>
     {
     }
 }

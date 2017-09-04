@@ -40,7 +40,7 @@ namespace YaD.Lib
                         TracklistOwner = albumDto.Artist,
                         TracklistTitle = albumDto.Title,
                         Image = albumDto.Image,
-                        Tracks = new TracksInfoProvider(albumDto.Tracks),
+                        Tracks = TrackListFactory.Create(albumDto.Tracks),
                     };
                     break;
                 case PageType.Playlist:
@@ -51,7 +51,7 @@ namespace YaD.Lib
                         TracklistOwner = playlistDto.Owner,
                         TracklistTitle = playlistDto.Title,
                         Image = playlistDto.Image,
-                        Tracks = new TracksInfoProvider(playlistDto.TrackIds, playlistDto.Tracks, apiClient),
+                        Tracks = TrackListFactory.Create(playlistDto.TrackIds, playlistDto.Tracks, apiClient),
                     };
                     break;
                 
@@ -63,7 +63,7 @@ namespace YaD.Lib
                         TracklistOwner = artistDto.Name,
                         TracklistTitle = "All tracks",
                         Image = artistDto.Image,
-                        Tracks = new TracksInfoProvider(artistDto.TrackIds, artistDto.Tracks, apiClient),
+                        Tracks = TrackListFactory.Create(artistDto.TrackIds, artistDto.Tracks, apiClient),
                     };
                     break;
                 
@@ -75,7 +75,7 @@ namespace YaD.Lib
                         TracklistOwner = $"{userDto.Name} / {userDto.Login}",
                         TracklistTitle = "All user tracks",
                         Image = userDto.Image,
-                        Tracks = new TracksInfoProvider(userDto.TrackIds, userDto.Tracks, apiClient),
+                        Tracks = TrackListFactory.Create(userDto.TrackIds, userDto.Tracks, apiClient),
                     };
                     break;
                     

@@ -12,6 +12,6 @@ namespace YaD.Lib
         public String TracklistTitle { get; set; }
         public String Image { get; set; }
 
-        public TracksInfoProvider Tracks { get; set; }
+        public ITrackList Tracks { get; set; }
     }
 }
