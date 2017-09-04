@@ -43,10 +43,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApiClient\Dto.cs" />
-    <Compile Include="ApiClient\Md5Helper.cs" />
+    <Compile Include="Dto.cs" />
+    <Compile Include="Md5Helper.cs" />
     <Compile Include="Enums.cs" />
-    <Compile Include="ApiClient\IDataApiClient.cs" />
+    <Compile Include="IDataApiClient.cs" />
     <Compile Include="ITrackList.cs" />
     <Compile Include="PageInfo.cs" />
     <Compile Include="PageInfoRetriever.cs" />
@@ -56,7 +56,7 @@
     <Compile Include="UrlParams.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UrlParser.cs" />
-    <Compile Include="ApiClient\YandexDataApi.cs" />
+    <Compile Include="YandexDataApi.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
