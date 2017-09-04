@@ -13,11 +13,6 @@ namespace YaD.Lib
     {
         private static String SALT = "XGRlBW9FXlekgbPrRHuSiA";
 
-        //static YandexDataApiClient()
-        //{
-        //    System.Net.ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
-        //}
-
         public async Task<AlbumDto> GetAlbumAsync(string albumId)
         {
             String url = $"https://music.yandex.ru/handlers/album.jsx?album={albumId}&lang=ru&external-domain=music.yandex.ru&overembed=false&ncrnd=0.3792734650109968";
