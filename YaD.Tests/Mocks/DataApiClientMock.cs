@@ -53,6 +53,11 @@ namespace YaD.Tests.Mocks
             ).ToList();
         }
 
+        public async Task<string> GetTrackUrlAsync(int trackId)
+        {
+            return $"http://track/{trackId}";
+        }
+
         public async Task<UserDto> GetUserAsync(string userId)
         {
             return new UserDto()

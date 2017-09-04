@@ -11,6 +11,13 @@ namespace YaD.Lib
 {
     public class YandexDataApiClient : IDataApiClient
     {
+        private static String SALT = "XGRlBW9FXlekgbPrRHuSiA";
+
+        //static YandexDataApiClient()
+        //{
+        //    System.Net.ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
+        //}
+
         public async Task<AlbumDto> GetAlbumAsync(string albumId)
         {
             String url = $"https://music.yandex.ru/handlers/album.jsx?album={albumId}&lang=ru&external-domain=music.yandex.ru&overembed=false&ncrnd=0.3792734650109968";
@@ -88,14 +95,31 @@ namespace YaD.Lib
             return GetTracksFromJToken(data);
         }
 
+        public async Task<string> GetTrackUrlAsync(int trackId)
+        {
+            String trackInfoUrl = $"https://music.yandex.ru/api/v2.1/handlers/track/{trackId}/track/download/m?hq=1";
+            JToken trackInfoData = await RequestJsonAsync(trackInfoUrl);
+
+            String trackSrcUrl = (String)trackInfoData["src"] + "&format=json";
+            JToken trackSrcData = await RequestJsonAsync(trackSrcUrl);
+
+            String path = (String)trackSrcData["path"];
+            String s = (String)trackSrcData["s"];
+            String hash = Md5Helper.GetMd5Hash($"{SALT}{path.Substring(1)}{s}");
+            String host = (String)trackSrcData["host"];
+            String ts = (String)trackSrcData["ts"];
+
+            return $"https://{host}/get-mp3/{hash}/{ts}{path}";                
+        }
+
         private HttpWebRequest CreateRequest(String url)
         {
             HttpWebRequest req = (HttpWebRequest)WebRequest.Create(url);
             req.Headers.Clear();
             req.Accept = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8";
             req.UserAgent = "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36";
-            req.Host = "music.yandex.ru";
             req.Method = "GET";
+            req.Referer = "https://music.yandex.ru/";
 
             req.Headers.Add("Accept-Language", "en-US,en;q=0.8,ru;q=0.6");
             req.Headers.Add("Accept-Encoding", "identity");

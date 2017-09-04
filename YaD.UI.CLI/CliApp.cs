@@ -32,7 +32,11 @@ namespace YaD.UI.CLI
 
         static async void Test()
         {
-            String url = "https://music.yandex.ru/album/4413792";
+            YandexDataApiClient apiClient = new YandexDataApiClient();
+            String url = await apiClient.GetTrackUrlAsync(5533086);
+            Console.WriteLine(url);
+
+            url = "https://music.yandex.ru/album/4413792";
             PageInfo pageInfo = await pageInfoRetriever.GetPageInfoAsync(url);
 
             Console.WriteLine("Image: " + pageInfo.Image);

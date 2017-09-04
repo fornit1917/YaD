@@ -33,6 +33,8 @@ namespace YaD.Lib
 
         private class LazyContainer
         {
+            private static int MAX_PER_REQUEST = 50;
+
             private int[] trackIds;
             private Dictionary<int, TrackDto> tracksMap;
             private IDataApiClient apiClient;
@@ -60,7 +62,7 @@ namespace YaD.Lib
                     int id = trackIds[i];
                     if (!IsLoaded(id))
                     {
-                        LoadRange(index, actualCount);
+                        LoadRange(index, MAX_PER_REQUEST);
                     }
                     tracks.Add(tracksMap[id]);
                 }
@@ -74,7 +76,7 @@ namespace YaD.Lib
                     int trackId = trackIds[index];
                     if (!IsLoaded(trackId))
                     {
-                        LoadRange(index, 10);
+                        LoadRange(index, MAX_PER_REQUEST);
                     }
                     return tracksMap[trackId];
                 }
