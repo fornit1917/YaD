@@ -28,12 +28,15 @@ namespace YaD.Tests
             Assert.AreEqual("http://test.com/123", pageInfo.Image);
         }
 
-        /*
+        
         [TestMethod]
         public void TestGetPageInfoForArtist()
         {
             PageInfo pageInfo = pageInfoRetriever.GetPageInfoAsync("https://music.yandex.ru/artist/12345").Result;
             Assert.IsNotNull(pageInfo);
+            Assert.AreEqual("All tracks", pageInfo.TracklistTitle);
+            Assert.AreEqual("12345", pageInfo.TracklistOwner);
+            Assert.AreEqual("http://test.com/12345", pageInfo.Image);
         }
 
         [TestMethod]
@@ -41,8 +44,10 @@ namespace YaD.Tests
         {
             PageInfo pageInfo = pageInfoRetriever.GetPageInfoAsync("https://music.yandex.ru/users/user.name/tracks").Result;
             Assert.IsNotNull(pageInfo);
+            Assert.AreEqual("All user tracks", pageInfo.TracklistTitle);
+            Assert.AreEqual("Name - user.name / user.name", pageInfo.TracklistOwner);
         }
-        */
+        
 
         [TestMethod]
         public void TestGetPageInfoForPlaylist()

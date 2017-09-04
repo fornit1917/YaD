@@ -15,7 +15,8 @@ namespace YaD.Tests.Mocks
             {
                 Artist = "Some Artist",
                 Image = $"http://test.com/{albumId}",
-                Title = albumId
+                Title = albumId,
+                Tracks = GetTracks(new int[] { 1, 2, 3, 4, 5 })
             };
         }
 
@@ -25,6 +26,8 @@ namespace YaD.Tests.Mocks
             {
                 Name = artistId,
                 Image = $"http://test.com/{artistId}",
+                TrackIds = new int[] { 1, 2, 3, 4, 5 },
+                Tracks = GetTracks(new int[] { 1, 2, 3, 4, 5 })
             };
         }
 
@@ -34,7 +37,9 @@ namespace YaD.Tests.Mocks
             {
                 Title = $"{userId} - ${playlistId}",
                 Owner = userId,
-                Image = $"http://test.com/{userId}/{playlistId}"
+                Image = $"http://test.com/{userId}/{playlistId}",
+                TrackIds = new int[] {1, 2, 3, 4, 5},
+                Tracks = GetTracks(new int[] { 1, 2, 3, 4, 5 })
             };
         }
 
@@ -65,6 +70,8 @@ namespace YaD.Tests.Mocks
                 Login = userId,
                 Name = $"Name - {userId}",
                 Image = $"http://test.com/{userId}",
+                TrackIds = new int[] { 1, 2, 3, 4, 5 },
+                Tracks = GetTracks(new int[] { 1, 2, 3, 4, 5 })
             };
         }
     }
