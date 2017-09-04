@@ -14,7 +14,7 @@ namespace YaD.Lib
         public async Task<AlbumDto> GetAlbumAsync(string albumId)
         {
             String url = $"https://music.yandex.ru/handlers/album.jsx?album={albumId}&lang=ru&external-domain=music.yandex.ru&overembed=false&ncrnd=0.3792734650109968";
-            JObject data = await RequestJsonObject(url);
+            JToken data = await RequestJsonAsync(url);
 
             String title = (String)data["title"];
             int year = (int)data["year"];
@@ -41,7 +41,7 @@ namespace YaD.Lib
         public async Task<PlaylistDto> GetPlaylistAsync(string userId, string playlistId)
         {
             String url = $"https://music.yandex.ru/handlers/playlist.jsx?owner={userId}&kinds={playlistId}&light=true&lang=ru&external-domain=music.yandex.ru&overembed=false&ncrnd=0.5872919215747372";
-            JObject data = await RequestJsonObject(url);
+            JToken data = await RequestJsonAsync(url);
             return new PlaylistDto()
             {
                 Image = GetImageUrl((String)data["playlist"]["ogImage"]),
@@ -55,7 +55,7 @@ namespace YaD.Lib
         public async Task<UserDto> GetUserAsync(string userId)
         {
             String url = $"https://music.yandex.ru/handlers/library.jsx?owner={userId}&filter=tracks&likeFilter=favorite&sort=&dir=&lang=ru&external-domain=music.yandex.ru&overembed=false&ncrnd=0.7220692948046592";
-            JObject data = await RequestJsonObject(url);
+            JToken data = await RequestJsonAsync(url);
             return new UserDto()
             {
                 Login = userId,
@@ -69,7 +69,7 @@ namespace YaD.Lib
         public async Task<ArtistDto> GetArtistAsync(string artistId)
         {
             String url = $"https://music.yandex.ru/handlers/artist.jsx?artist={artistId}&what=tracks&sort=&dir=&lang=ru&external-domain=music.yandex.ru&overembed=false&ncrnd=0.329131147428392";
-            JObject data = await RequestJsonObject(url);
+            JToken data = await RequestJsonAsync(url);
 
             return new ArtistDto()
             {
@@ -78,6 +78,14 @@ namespace YaD.Lib
                 TrackIds = GetTrackIdsFromJToken(data["trackIds"]),
                 Tracks = GetTracksFromJToken(data["tracks"]),
             };
+        }
+
+        public List<TrackDto> GetTracks(int[] trackIds)
+        {
+            String query = String.Join(",", trackIds);
+            String url = $"https://music.yandex.ru/api/v2.1/handlers/tracks?tracks={query}";
+            JToken data = RequestJson(url);
+            return GetTracksFromJToken(data);
         }
 
         private HttpWebRequest CreateRequest(String url)
@@ -94,19 +102,32 @@ namespace YaD.Lib
             req.Headers.Add("Cache-Control", "max-age=0");
             req.Headers.Add("DNT", "1");
             req.Headers.Add("Upgrade-Insecure-Requests", "1");
-            req.Headers.Add("Cookie", "_ym_uid=1502906756176177940; mda=0; _ym_isad=2; yandexuid=5733988641502906756; yp=1818266756.yrts.1502906756; _ym_visorc_10630330=w; spravka=dD0xNTAyOTA2NzYxO2k9NDYuMTY0LjE5OC4xNzU7dT0xNTAyOTA2NzYxNTgzNzUzMTAzO2g9ZDQwZmZlNmFkYjQ1NWJhNjNhMWE5MmM3NTFjYTg5MWY=; device_id=\"bd83f65309fad0c369c4a221b8faa9991ee873936\"; _ym_visorc_1028356=b; i=UpYyqKGVjzBkESSuqqttj9x4BrOVszvLI2iE/DLIR1QNZU3zHshVTgnApfM5J8FdYT3DFTK3lftra/BrPQjqlxgsU0U=");            
+            req.Headers.Add("Cookie", "_ym_uid=1502906756176177940; mda=0; _ym_isad=2; yandexuid=5733988641502906756; yp=1818266756.yrts.1502906756; _ym_visorc_10630330=w; spravka=dD0xNTAyOTA2NzYxO2k9NDYuMTY0LjE5OC4xNzU7dT0xNTAyOTA2NzYxNTgzNzUzMTAzO2g9ZDQwZmZlNmFkYjQ1NWJhNjNhMWE5MmM3NTFjYTg5MWY=; device_id=\"bd83f65309fad0c369c4a221b8faa9991ee873936\"; _ym_visorc_1028356=b; i=UpYyqKGVjzBkESSuqqttj9x4BrOVszvLI2iE/DLIR1QNZU3zHshVTgnApfM5J8FdYT3DFTK3lftra/BrPQjqlxgsU0U=");
+            req.Headers.Add("X-Retpath-Y", "https%3A%2F%2Fmusic.yandex.ru");
 
             return req;
         }
 
-        private async Task<JObject> RequestJsonObject(String url)
+        private async Task<JToken> RequestJsonAsync(String url)
         {
             HttpWebRequest req = CreateRequest(url);
             WebResponse resp = await req.GetResponseAsync();
+            return ResponseToJToken(resp);
+        }
+
+        private JToken RequestJson(String url)
+        {
+            HttpWebRequest req = CreateRequest(url);
+            WebResponse resp = req.GetResponse();
+            return ResponseToJToken(resp);
+        }
+
+        private JToken ResponseToJToken(WebResponse resp)
+        {
             using (StreamReader sr = new StreamReader(resp.GetResponseStream()))
             {
-                String respStr = sr.ReadToEnd();
-                return JObject.Parse(respStr);
+                String s = sr.ReadToEnd();
+                return JToken.Parse(s);
             }
         }
 
@@ -135,11 +156,6 @@ namespace YaD.Lib
         private int[] GetTrackIdsFromJToken(JToken data)
         {
             return (from tId in data select Convert.ToInt32(((String)tId).Split(':')[0])).ToArray();
-        }
-
-        public List<TrackDto> GetTracks(int[] trackIds)
-        {
-            throw new NotImplementedException();
         }
     }
 }

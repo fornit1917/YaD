@@ -34,27 +34,10 @@ namespace YaD.UI.CLI
         {
             String url = "https://music.yandex.ru/album/4413792";
             PageInfo pageInfo = await pageInfoRetriever.GetPageInfoAsync(url);
-            
+
             Console.WriteLine("Image: " + pageInfo.Image);
             Console.WriteLine("Owner: " + pageInfo.TracklistOwner);
             Console.WriteLine("Title: " + pageInfo.TracklistTitle);
-
-            Console.WriteLine("Tracks: ");
-            Console.WriteLine();
-            foreach (var track in pageInfo.Tracks)
-            {
-                Console.WriteLine(track.Title);
-            }
-            Console.WriteLine();
-
-            pageInfo.Tracks.GetEnumerator().Reset();
-            Console.WriteLine("Tracks: ");
-            Console.WriteLine();
-            foreach (var track in pageInfo.Tracks)
-            {
-                Console.WriteLine(track.Title);
-            }
-            Console.WriteLine();
 
             Console.WriteLine("---------------------");
 
@@ -65,12 +48,19 @@ namespace YaD.UI.CLI
             Console.WriteLine("Title: " + pageInfo.TracklistTitle);
 
             Console.WriteLine("----------------------");
-        
+
             url = "https://music.yandex.ru/users/vit.fornit.1917/tracks";
             pageInfo = await pageInfoRetriever.GetPageInfoAsync(url);
             Console.WriteLine("Image: " + pageInfo.Image);
             Console.WriteLine("Owner: " + pageInfo.TracklistOwner);
             Console.WriteLine("Title: " + pageInfo.TracklistTitle);
+            Console.WriteLine("Tracks: ");
+            Console.WriteLine();
+            foreach (var track in pageInfo.Tracks)
+            {
+                Console.WriteLine(track.Title);
+            }
+            Console.WriteLine();
 
             Console.WriteLine("----------------------");
 
@@ -79,7 +69,7 @@ namespace YaD.UI.CLI
             Console.WriteLine("Image: " + pageInfo.Image);
             Console.WriteLine("Owner: " + pageInfo.TracklistOwner);
             Console.WriteLine("Title: " + pageInfo.TracklistTitle);
-        
+
             Console.ReadLine();
         }
 
