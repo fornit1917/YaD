@@ -36,6 +36,7 @@ namespace YaD.Lib
                              Artist = String.Join(" & ", from a in track["artists"] select a["name"]),
                              AlbumTitle = title,
                              AlbumYear = year,
+                             FileSize = (int)track["fileSize"],
                          }).ToList(),
             };
         }
@@ -168,6 +169,7 @@ namespace YaD.Lib
                     Artist = String.Join(" & ", from a in t["artists"] select a["name"]),
                     AlbumTitle = album == null ? null : (String)album["title"],
                     AlbumYear = album == null || album["year"] == null ? 0 : (int)album["year"],
+                    FileSize = (int)t["fileSize"],
                 }
              ).ToList();
         }

@@ -48,5 +48,6 @@ namespace YaD.Lib
         public String Title { get; set; }
         public int AlbumYear { get; set; }
         public String AlbumTitle { get; set; }
+        public int FileSize { get; set; }
     }
 }
