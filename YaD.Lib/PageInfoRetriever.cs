@@ -34,7 +34,7 @@ namespace YaD.Lib
             {
                 case PageType.Album:
                     UrlParamsAlbum urlParamsAlbum = urlParams as UrlParamsAlbum;
-                    AlbumDto albumDto = await apiClient.GetAlbum(urlParamsAlbum.AlbumId);
+                    AlbumDto albumDto = await apiClient.GetAlbumAsync(urlParamsAlbum.AlbumId);
                     pageInfo = new PageInfo()
                     {
                         TracklistOwner = albumDto.Artist,
@@ -45,7 +45,7 @@ namespace YaD.Lib
                     break;
                 case PageType.Playlist:
                     UrlParamsPlaylist urlParamsPlaylist = urlParams as UrlParamsPlaylist;
-                    PlaylistDto playlistDto = await apiClient.GetPlaylist(urlParamsPlaylist.UserId, urlParamsPlaylist.PlaylistId);
+                    PlaylistDto playlistDto = await apiClient.GetPlaylistAsync(urlParamsPlaylist.UserId, urlParamsPlaylist.PlaylistId);
                     pageInfo = new PageInfo()
                     {
                         TracklistOwner = playlistDto.Owner,
@@ -57,7 +57,7 @@ namespace YaD.Lib
                 
                 case PageType.Artist:
                     UrlParamsArtist urlParamsArtist = urlParams as UrlParamsArtist;
-                    ArtistDto artistDto = await apiClient.GetArtist(urlParamsArtist.ArtistId);
+                    ArtistDto artistDto = await apiClient.GetArtistAsync(urlParamsArtist.ArtistId);
                     pageInfo = new PageInfo()
                     {
                         TracklistOwner = artistDto.Name,
@@ -69,7 +69,7 @@ namespace YaD.Lib
                 
                 case PageType.User:
                     UrlParamsUser urlParamsUser = urlParams as UrlParamsUser;
-                    UserDto userDto = await apiClient.GetUser(urlParamsUser.UserId);
+                    UserDto userDto = await apiClient.GetUserAsync(urlParamsUser.UserId);
                     pageInfo = new PageInfo()
                     {
                         TracklistOwner = $"{userDto.Name} / {userDto.Login}",

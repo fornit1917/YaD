@@ -9,7 +9,7 @@ namespace YaD.Tests.Mocks
 {
     class DataApiClientMock : IDataApiClient
     {
-        public async Task<AlbumDto> GetAlbum(string albumId)
+        public async Task<AlbumDto> GetAlbumAsync(string albumId)
         {
             return new AlbumDto()
             {
@@ -19,7 +19,7 @@ namespace YaD.Tests.Mocks
             };
         }
 
-        public async Task<ArtistDto> GetArtist(string artistId)
+        public async Task<ArtistDto> GetArtistAsync(string artistId)
         {
             return new ArtistDto()
             {
@@ -28,7 +28,7 @@ namespace YaD.Tests.Mocks
             };
         }
 
-        public async Task<PlaylistDto> GetPlaylist(string userId, string playlistId)
+        public async Task<PlaylistDto> GetPlaylistAsync(string userId, string playlistId)
         {
             return new PlaylistDto()
             {
@@ -53,7 +53,7 @@ namespace YaD.Tests.Mocks
             ).ToList();
         }
 
-        public async Task<UserDto> GetUser(string userId)
+        public async Task<UserDto> GetUserAsync(string userId)
         {
             return new UserDto()
             {

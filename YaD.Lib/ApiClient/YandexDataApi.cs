@@ -11,7 +11,7 @@ namespace YaD.Lib
 {
     public class YandexDataApiClient : IDataApiClient
     {
-        public async Task<AlbumDto> GetAlbum(string albumId)
+        public async Task<AlbumDto> GetAlbumAsync(string albumId)
         {
             String url = $"https://music.yandex.ru/handlers/album.jsx?album={albumId}&lang=ru&external-domain=music.yandex.ru&overembed=false&ncrnd=0.3792734650109968";
             JObject data = await RequestJsonObject(url);
@@ -38,7 +38,7 @@ namespace YaD.Lib
             };
         }
 
-        public async Task<PlaylistDto> GetPlaylist(string userId, string playlistId)
+        public async Task<PlaylistDto> GetPlaylistAsync(string userId, string playlistId)
         {
             String url = $"https://music.yandex.ru/handlers/playlist.jsx?owner={userId}&kinds={playlistId}&light=true&lang=ru&external-domain=music.yandex.ru&overembed=false&ncrnd=0.5872919215747372";
             JObject data = await RequestJsonObject(url);
@@ -52,7 +52,7 @@ namespace YaD.Lib
             };
         }
 
-        public async Task<UserDto> GetUser(string userId)
+        public async Task<UserDto> GetUserAsync(string userId)
         {
             String url = $"https://music.yandex.ru/handlers/library.jsx?owner={userId}&filter=tracks&likeFilter=favorite&sort=&dir=&lang=ru&external-domain=music.yandex.ru&overembed=false&ncrnd=0.7220692948046592";
             JObject data = await RequestJsonObject(url);
@@ -66,7 +66,7 @@ namespace YaD.Lib
             };
         }
 
-        public async Task<ArtistDto> GetArtist(string artistId)
+        public async Task<ArtistDto> GetArtistAsync(string artistId)
         {
             String url = $"https://music.yandex.ru/handlers/artist.jsx?artist={artistId}&what=tracks&sort=&dir=&lang=ru&external-domain=music.yandex.ru&overembed=false&ncrnd=0.329131147428392";
             JObject data = await RequestJsonObject(url);

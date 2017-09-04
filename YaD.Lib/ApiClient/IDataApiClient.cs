@@ -8,10 +8,10 @@ namespace YaD.Lib
 {
     public interface IDataApiClient
     {
-        Task<PlaylistDto> GetPlaylist(String userId, String playlistId);
-        Task<AlbumDto> GetAlbum(String albumId);
-        Task<UserDto> GetUser(String userId);
-        Task<ArtistDto> GetArtist(String artistId);
+        Task<PlaylistDto> GetPlaylistAsync(String userId, String playlistId);
+        Task<AlbumDto> GetAlbumAsync(String albumId);
+        Task<UserDto> GetUserAsync(String userId);
+        Task<ArtistDto> GetArtistAsync(String artistId);
 
         List<TrackDto> GetTracks(int[] trackIds);
     }
