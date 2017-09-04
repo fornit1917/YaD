@@ -16,12 +16,15 @@ namespace YaD.Lib
             String url = $"https://music.yandex.ru/handlers/album.jsx?album={albumId}&lang=ru&external-domain=music.yandex.ru&overembed=false&ncrnd=0.3792734650109968";
             JObject data = await RequestJsonObject(url);
 
+            String title = (String)data["title"];
+            int year = (int)data["year"];
+
             return new AlbumDto()
             {
                 Image = GetImageUrl((String)data["coverUri"]),
-                Title = (String)data["title"],
+                Title = title,
                 Artist = String.Join(" & ", from a in data["artists"] select a["name"]),
-                Year = (int)data["year"],
+                Year = year,
                 Tracks = (from volume in data["volumes"]
                          from track in volume
                          select new TrackDto()
@@ -29,8 +32,8 @@ namespace YaD.Lib
                              Id = Convert.ToInt32(track["id"]),
                              Title = (String)track["title"],
                              Artist = String.Join(" & ", from a in track["artists"] select a["name"]),
-                             AlbumTitle = (String)data["title"],
-                             AlbumYear = (int)data["year"],
+                             AlbumTitle = title,
+                             AlbumYear = year,
                          }).ToArray(),
             };
         }
