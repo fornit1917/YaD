@@ -43,7 +43,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DownloadEvents.cs" />
     <Compile Include="Dto.cs" />
+    <Compile Include="IFileDownloader.cs" />
+    <Compile Include="IFileSystem.cs" />
     <Compile Include="Md5Helper.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="IDataApiClient.cs" />
