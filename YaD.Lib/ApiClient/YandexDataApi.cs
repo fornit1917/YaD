@@ -16,32 +16,22 @@ namespace YaD.Lib
             String url = $"https://music.yandex.ru/handlers/album.jsx?album={albumId}&lang=ru&external-domain=music.yandex.ru&overembed=false&ncrnd=0.3792734650109968";
             JObject data = await RequestJsonObject(url);
 
-            TrackDto[] tracks = new TrackDto[(int)data["trackCount"]];
-            int i = 0;
-            foreach (var volume in data["volumes"])
-            {
-                foreach (var track in volume)
-                {
-                    tracks[i] = new TrackDto()
-                    {
-                        Id = Convert.ToInt32(track["id"]),
-                        Title = (String)track["title"],
-                        Artist = String.Join(" & ", from a in track["artists"] select a["name"]),
-                        AlbumTitle = (String)data["title"],
-                        AlbumYear = (int)data["year"],
-                    };
-                    i++;
-                }
-
-            }
-
             return new AlbumDto()
             {
                 Image = GetImageUrl((String)data["coverUri"]),
                 Title = (String)data["title"],
                 Artist = String.Join(" & ", from a in data["artists"] select a["name"]),
                 Year = (int)data["year"],
-                Tracks = tracks,
+                Tracks = (from volume in data["volumes"]
+                         from track in volume
+                         select new TrackDto()
+                         {
+                             Id = Convert.ToInt32(track["id"]),
+                             Title = (String)track["title"],
+                             Artist = String.Join(" & ", from a in track["artists"] select a["name"]),
+                             AlbumTitle = (String)data["title"],
+                             AlbumYear = (int)data["year"],
+                         }).ToArray(),
             };
         }
 
