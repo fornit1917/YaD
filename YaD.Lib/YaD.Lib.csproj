@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="Downloader\DownloadEvents.cs" />
     <Compile Include="ApiClient\Dto.cs" />
+    <Compile Include="Downloader\FileSystem.cs" />
     <Compile Include="Downloader\IFileDownloader.cs" />
     <Compile Include="Downloader\IFileSystem.cs" />
     <Compile Include="ApiClient\Md5Helper.cs" />

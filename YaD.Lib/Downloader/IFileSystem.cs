@@ -11,7 +11,6 @@ namespace YaD.Lib
         String BaseDir { get; set; }
         bool BaseDirIsEmpty { get; }
 
-        bool FileExists(String relPath);
         bool IsDownloadedTrack(String relPath, TrackDto track);
         void CleanBaseDir();
     }
