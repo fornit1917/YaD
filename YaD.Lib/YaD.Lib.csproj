@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiClient\YandexDataApiClient.cs" />
     <Compile Include="Downloader\DownloadEvents.cs" />
     <Compile Include="ApiClient\Dto.cs" />
     <Compile Include="Downloader\FileSystem.cs" />
@@ -61,7 +62,6 @@
     <Compile Include="UrlParams.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UrlParser.cs" />
-    <Compile Include="ApiClient\YandexDataApi.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
