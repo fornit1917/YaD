@@ -13,9 +13,9 @@ namespace YaD.Tests.Mocks
         {
             return new AlbumDto()
             {
-                Artist = "Some Artist",
+                Artist = "Artist",
                 Image = $"http://test.com/{albumId}",
-                Title = albumId,
+                Title = "Album",
                 Tracks = GetTracks(new int[] { 1, 2, 3, 4, 5 })
             };
         }
@@ -24,7 +24,7 @@ namespace YaD.Tests.Mocks
         {
             return new ArtistDto()
             {
-                Name = artistId,
+                Name = "Artist",
                 Image = $"http://test.com/{artistId}",
                 TrackIds = new int[] { 1, 2, 3, 4, 5 },
                 Tracks = GetTracks(new int[] { 1, 2, 3, 4, 5 })
@@ -35,11 +35,11 @@ namespace YaD.Tests.Mocks
         {
             return new PlaylistDto()
             {
-                Title = $"{userId} - ${playlistId}",
-                Owner = userId,
+                Title = "Playlist",
+                Owner = "User",
                 Image = $"http://test.com/{userId}/{playlistId}",
                 TrackIds = new int[] {1, 2, 3, 4, 5},
-                Tracks = GetTracks(new int[] { 1, 2, 3, 4, 5 })
+                Tracks = GetTracks(new int[] { 1, 2 })
             };
         }
 
@@ -49,11 +49,11 @@ namespace YaD.Tests.Mocks
                 from id in trackIds
                 select new TrackDto()
                 {
-                    AlbumTitle = $"Some Album",
+                    AlbumTitle = "Album",
                     AlbumYear = 2017,
-                    Artist = "Some Artist",
+                    Artist = "Artist",
                     Id = id,
-                    Title = $"Track {id}",
+                    Title = id.ToString(),
                 }
             ).ToList();
         }
@@ -67,8 +67,8 @@ namespace YaD.Tests.Mocks
         {
             return new UserDto()
             {
-                Login = userId,
-                Name = $"Name - {userId}",
+                Login = "UserLogin",
+                Name = "UserName",
                 Image = $"http://test.com/{userId}",
                 TrackIds = new int[] { 1, 2, 3, 4, 5 },
                 Tracks = GetTracks(new int[] { 1, 2, 3, 4, 5 })

@@ -11,6 +11,8 @@ namespace YaD.Lib
     {
         private List<TrackDto> tracks;
 
+        public int TotalCount => tracks.Count;
+
         public TrackListSimple(List<TrackDto> tracks)
         {
             this.tracks = tracks;

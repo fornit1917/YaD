@@ -11,6 +11,8 @@ namespace YaD.Lib
     {
         private LazyContainer container;
 
+        public int TotalCount => container.TotalCount;
+
         public TrackListLazyLoading(int[] trackIds, List<TrackDto> tracks, IDataApiClient apiClient)
         {
             container = new LazyContainer(trackIds, tracks, apiClient);
