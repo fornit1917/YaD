@@ -8,6 +8,8 @@ namespace YaD.Lib
 {
     public class PageInfo
     {
+        public PageType Type { get; set; }
+
         public String TracklistOwner { get; set; }
         public String TracklistTitle { get; set; }
         public String Image { get; set; }

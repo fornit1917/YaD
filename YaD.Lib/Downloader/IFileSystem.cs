@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace YaD.Lib
 {
-    interface IFileSystem
+    public interface IFileSystem
     {
         String BaseDir { get; set; }
         bool BaseDirIsEmpty { get; }

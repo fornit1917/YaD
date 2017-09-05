@@ -37,6 +37,7 @@ namespace YaD.Lib
                     AlbumDto albumDto = await apiClient.GetAlbumAsync(urlParamsAlbum.AlbumId);
                     pageInfo = new PageInfo()
                     {
+                        Type = PageType.Album,
                         TracklistOwner = albumDto.Artist,
                         TracklistTitle = albumDto.Title,
                         Image = albumDto.Image,
@@ -48,6 +49,7 @@ namespace YaD.Lib
                     PlaylistDto playlistDto = await apiClient.GetPlaylistAsync(urlParamsPlaylist.UserId, urlParamsPlaylist.PlaylistId);
                     pageInfo = new PageInfo()
                     {
+                        Type = PageType.Playlist,
                         TracklistOwner = playlistDto.Owner,
                         TracklistTitle = playlistDto.Title,
                         Image = playlistDto.Image,
@@ -60,6 +62,7 @@ namespace YaD.Lib
                     ArtistDto artistDto = await apiClient.GetArtistAsync(urlParamsArtist.ArtistId);
                     pageInfo = new PageInfo()
                     {
+                        Type = PageType.Artist,
                         TracklistOwner = artistDto.Name,
                         TracklistTitle = "All tracks",
                         Image = artistDto.Image,
@@ -72,6 +75,7 @@ namespace YaD.Lib
                     UserDto userDto = await apiClient.GetUserAsync(urlParamsUser.UserId);
                     pageInfo = new PageInfo()
                     {
+                        Type = PageType.User,
                         TracklistOwner = $"{userDto.Name} / {userDto.Login}",
                         TracklistTitle = "All user tracks",
                         Image = userDto.Image,

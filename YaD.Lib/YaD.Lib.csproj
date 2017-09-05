@@ -50,11 +50,11 @@
     <Compile Include="Downloader\IFileDownloader.cs" />
     <Compile Include="Downloader\IFileSystem.cs" />
     <Compile Include="ApiClient\Md5Helper.cs" />
-    <Compile Include="Enums.cs" />
     <Compile Include="ApiClient\IDataApiClient.cs" />
     <Compile Include="ITrackList.cs" />
     <Compile Include="PageInfo.cs" />
     <Compile Include="PageInfoRetriever.cs" />
+    <Compile Include="PageType.cs" />
     <Compile Include="TrackListFactory.cs" />
     <Compile Include="TrackListLazyLoading.cs" />
     <Compile Include="TrackListSimple.cs" />

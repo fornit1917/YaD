@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 
 namespace YaD.Lib
 {
-    class TracksDownloader
+    public class TracksDownloader
     {
         private ITrackList tracks;
         private IFileDownloader fileDownloader;
         private IFileSystem fileSystem;
+
+        public IFileSystem FileSystem => fileSystem;
 
         public TracksDownloader(ITrackList tracks)
         {

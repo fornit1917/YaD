@@ -26,6 +26,7 @@ namespace YaD.Tests
             Assert.AreEqual("Album", pageInfo.TracklistTitle);
             Assert.AreEqual("Artist", pageInfo.TracklistOwner);
             Assert.AreEqual("http://test.com/123", pageInfo.Image);
+            Assert.AreEqual(PageType.Album, pageInfo.Type);
             CheckTracks(pageInfo.Tracks);
         }
 
@@ -38,6 +39,7 @@ namespace YaD.Tests
             Assert.AreEqual("All tracks", pageInfo.TracklistTitle);
             Assert.AreEqual("Artist", pageInfo.TracklistOwner);
             Assert.AreEqual("http://test.com/12345", pageInfo.Image);
+            Assert.AreEqual(PageType.Artist, pageInfo.Type);
             CheckTracks(pageInfo.Tracks);
         }
 
@@ -48,6 +50,7 @@ namespace YaD.Tests
             Assert.IsNotNull(pageInfo);
             Assert.AreEqual("All user tracks", pageInfo.TracklistTitle);
             Assert.AreEqual("UserName / UserLogin", pageInfo.TracklistOwner);
+            Assert.AreEqual(PageType.User, pageInfo.Type);
             CheckTracks(pageInfo.Tracks);
         }
         
@@ -60,6 +63,7 @@ namespace YaD.Tests
             Assert.AreEqual("Playlist", pageInfo.TracklistTitle);
             Assert.AreEqual("User", pageInfo.TracklistOwner);
             Assert.AreEqual("http://test.com/user.name/12345", pageInfo.Image);
+            Assert.AreEqual(PageType.Playlist, pageInfo.Type);
             CheckTracks(pageInfo.Tracks);
         }
 
