@@ -6,10 +6,18 @@ using System.Threading.Tasks;
 
 namespace YaD.Lib
 {
-    public class DownloadProgressEventArgs : EventArgs
+    public class FileDownloadProgressEventArgs : EventArgs
     {
-
+        public long BytesDownloaded { get; set; }
     }
 
-    public delegate void DownloadProgressHandler(Object sender, DownloadProgressEventArgs e);
+    public delegate void FileDownloadProgressHandler(Object sender, FileDownloadProgressEventArgs e);
+
+    public class TrackDownloadProgressEventArgs : EventArgs
+    {
+        public long BytesDownloaded { get; set; }
+        public TrackDto Track { get; set; }
+    }
+
+    public delegate void TrackDownloadProgressHandler(Object sender, TrackDownloadProgressEventArgs e);
 }

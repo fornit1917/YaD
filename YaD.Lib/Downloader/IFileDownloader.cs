@@ -8,6 +8,6 @@ namespace YaD.Lib
 {
     public interface IFileDownloader
     {
-        void Download(String url, String dest, DownloadProgressHandler OnDownloadProgess = null);
+        void Download(String url, String dest, FileDownloadProgressHandler OnDownloadProgess = null);
     }
 }

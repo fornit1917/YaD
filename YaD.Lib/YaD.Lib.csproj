@@ -46,6 +46,7 @@
     <Compile Include="ApiClient\YandexDataApiClient.cs" />
     <Compile Include="Downloader\DownloadEvents.cs" />
     <Compile Include="ApiClient\Dto.cs" />
+    <Compile Include="Downloader\FileDownloader.cs" />
     <Compile Include="Downloader\FileSystem.cs" />
     <Compile Include="Downloader\IFileDownloader.cs" />
     <Compile Include="Downloader\IFileSystem.cs" />
