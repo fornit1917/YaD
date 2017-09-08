@@ -91,13 +91,13 @@ namespace YaD.Lib
             return GetTracksFromJToken(data);
         }
 
-        public async Task<string> GetTrackUrlAsync(int trackId)
+        public String GetTrackUrl(int trackId)
         {
             String trackInfoUrl = $"https://music.yandex.ru/api/v2.1/handlers/track/{trackId}/track/download/m?hq=1";
-            JToken trackInfoData = await RequestJsonAsync(trackInfoUrl);
+            JToken trackInfoData = RequestJson(trackInfoUrl);
 
             String trackSrcUrl = (String)trackInfoData["src"] + "&format=json";
-            JToken trackSrcData = await RequestJsonAsync(trackSrcUrl);
+            JToken trackSrcData = RequestJson(trackSrcUrl);
 
             String path = (String)trackSrcData["path"];
             String s = (String)trackSrcData["s"];

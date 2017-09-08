@@ -58,7 +58,7 @@ namespace YaD.Tests.Mocks
             ).ToList();
         }
 
-        public async Task<string> GetTrackUrlAsync(int trackId)
+        public String GetTrackUrl(int trackId)
         {
             return $"http://track/{trackId}";
         }

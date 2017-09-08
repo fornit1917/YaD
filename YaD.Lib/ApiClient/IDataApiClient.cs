@@ -14,6 +14,6 @@ namespace YaD.Lib
         Task<ArtistDto> GetArtistAsync(String artistId);
 
         List<TrackDto> GetTracks(int[] trackIds);
-        Task<String> GetTrackUrlAsync(int trackId);
+        String GetTrackUrl(int trackId);
     }
 }

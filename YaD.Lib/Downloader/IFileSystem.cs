@@ -8,10 +8,8 @@ namespace YaD.Lib
 {
     public interface IFileSystem
     {
-        String BaseDir { get; set; }
-        bool BaseDirIsEmpty { get; }
-
-        bool IsDownloadedTrack(String relPath, TrackDto track);
-        void CleanBaseDir();
+        bool DirIsEmpty(String path);
+        bool IsDownloadedTrack(String path, TrackDto track);
+        void CleanDir(String path);
     }
 }

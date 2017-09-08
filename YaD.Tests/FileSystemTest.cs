@@ -43,22 +43,19 @@ namespace YaD.Tests
         [TestMethod]
         public void TestBaseDirIsEmpty()
         {
-            fs.BaseDir = $"{testDir}\\empty";
-            Assert.IsTrue(fs.BaseDirIsEmpty);
+            Assert.IsTrue(fs.DirIsEmpty($"{testDir}\\empty"));
         }
 
         [TestMethod]
         public void TestBaseDirWithOtherDirIsNotEmpty()
         {
-            fs.BaseDir = $"{testDir}\\onlyFolders";
-            Assert.IsFalse(fs.BaseDirIsEmpty);
+            Assert.IsFalse(fs.DirIsEmpty($"{testDir}\\onlyFolders"));
         }
 
         [TestMethod]
         public void TestBaseDirWithFilesIsNotEmpty()
         {
-            fs.BaseDir = $"{testDir}\\withFiles";
-            Assert.IsFalse(fs.BaseDirIsEmpty);
+            Assert.IsFalse(fs.DirIsEmpty($"{testDir}\\withFiles"));
         }
 
         [TestMethod]
@@ -67,31 +64,27 @@ namespace YaD.Tests
             String dir = $"{testDir}\\withFiles";
             Assert.IsTrue(Directory.EnumerateFileSystemEntries(dir).Any());
 
-            fs.BaseDir = dir;
-            fs.CleanBaseDir();
+            fs.CleanDir(dir);
             Assert.IsFalse(Directory.EnumerateFileSystemEntries(dir).Any());
         }
 
         [TestMethod]
         public void TestIsDownloadedTrackForNotExistedFile()
         {
-            fs.BaseDir = $"{testDir}\\withFiles";
-            Assert.IsFalse(fs.IsDownloadedTrack("notExistedFile.mp3", new TrackDto { FileSize = 3 }));
+            Assert.IsFalse(fs.IsDownloadedTrack($"{testDir}\\withFiles\\notExistedFile.mp3", new TrackDto { FileSize = 3 }));
         }
 
         [TestMethod]
         public void TestIsDownloadedTrackForExistedFileWithSmallSize()
         {
-            fs.BaseDir = $"{testDir}\\withFiles";
-            Assert.IsFalse(fs.IsDownloadedTrack("file.mp3", new TrackDto { FileSize = 3 }));
+            Assert.IsFalse(fs.IsDownloadedTrack($"{testDir}\\withFiles\\file.mp3", new TrackDto { FileSize = 3 }));
         }
 
         [TestMethod]
         public void TestIsDownloadedTrack()
         {
-            fs.BaseDir = $"{testDir}\\withFiles";
-            File.WriteAllText($"{fs.BaseDir}\\fileBig.mp3", "some content");
-            Assert.IsTrue(fs.IsDownloadedTrack("fileBig.mp3", new TrackDto { FileSize = 3 }));
+            File.WriteAllText($"{testDir}\\withFiles\\fileBig.mp3", "some content");
+            Assert.IsTrue(fs.IsDownloadedTrack($"{testDir}\\withFiles\\fileBig.mp3", new TrackDto { FileSize = 3 }));
         }
     }
 }

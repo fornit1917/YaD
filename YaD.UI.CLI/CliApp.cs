@@ -33,7 +33,7 @@ namespace YaD.UI.CLI
         static async void Test()
         {
             YandexDataApiClient apiClient = new YandexDataApiClient();
-            String url = await apiClient.GetTrackUrlAsync(5533086);
+            String url = apiClient.GetTrackUrl(5533086);
             Console.WriteLine(url);
 
             url = "https://music.yandex.ru/album/4413792";
@@ -58,13 +58,10 @@ namespace YaD.UI.CLI
             Console.WriteLine("Image: " + pageInfo.Image);
             Console.WriteLine("Owner: " + pageInfo.TracklistOwner);
             Console.WriteLine("Title: " + pageInfo.TracklistTitle);
-            Console.WriteLine("Tracks: ");
-            Console.WriteLine();
-            foreach (var track in pageInfo.Tracks)
-            {
-                Console.WriteLine(track.Title);
-            }
-            Console.WriteLine();
+            //Console.WriteLine("Tracks: ");
+
+            //TracksDownloader td = new TracksDownloader();
+            //td.StartDownload(pageInfo);
 
             Console.WriteLine("----------------------");
 

@@ -9,13 +9,11 @@ namespace YaD.Lib
 {
     class FileSystem : IFileSystem
     {
-        public string BaseDir { get; set; }
+        public bool DirIsEmpty(String path) => !Directory.Exists(path) || !Directory.EnumerateFileSystemEntries(path).Any();
 
-        public bool BaseDirIsEmpty => !Directory.Exists(BaseDir) || !Directory.EnumerateFileSystemEntries(BaseDir).Any();
-
-        public void CleanBaseDir()
+        public void CleanDir(String path)
         {
-            DirectoryInfo directory = new DirectoryInfo(BaseDir);
+            DirectoryInfo directory = new DirectoryInfo(path);
             foreach (FileInfo file in directory.EnumerateFiles())
             {
                 file.Delete();
@@ -26,9 +24,9 @@ namespace YaD.Lib
             }
         }
 
-        public bool IsDownloadedTrack(string relPath, TrackDto track)
+        public bool IsDownloadedTrack(string path, TrackDto track)
         {
-            FileInfo file = new FileInfo($"{BaseDir}\\{relPath}");
+            FileInfo file = new FileInfo(path);
             return file.Exists && file.Length >= track.FileSize;
         }
     }
