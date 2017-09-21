@@ -9,9 +9,9 @@ namespace YaD.Tests.Mocks
 {
     class DataApiClientMock : IDataApiClient
     {
-        public async Task<AlbumDto> GetAlbumAsync(string albumId)
+        public async Task<AlbumTracksDto> GetAlbumAsync(string albumId)
         {
-            return new AlbumDto()
+            return new AlbumTracksDto()
             {
                 Artist = "Artist",
                 Image = $"http://test.com/{albumId}",
@@ -20,9 +20,9 @@ namespace YaD.Tests.Mocks
             };
         }
 
-        public async Task<ArtistDto> GetArtistAsync(string artistId)
+        public async Task<ArtistTracksDto> GetArtistAsync(string artistId)
         {
-            return new ArtistDto()
+            return new ArtistTracksDto()
             {
                 Name = "Artist",
                 Image = $"http://test.com/{artistId}",
@@ -31,9 +31,9 @@ namespace YaD.Tests.Mocks
             };
         }
 
-        public async Task<PlaylistDto> GetPlaylistAsync(string userId, string playlistId)
+        public async Task<PlaylistTracksDto> GetPlaylistAsync(string userId, string playlistId)
         {
-            return new PlaylistDto()
+            return new PlaylistTracksDto()
             {
                 Title = "Playlist",
                 Owner = "User",
@@ -63,9 +63,9 @@ namespace YaD.Tests.Mocks
             return $"http://track/{trackId}";
         }
 
-        public async Task<UserDto> GetUserAsync(string userId)
+        public async Task<UserTracksDto> GetUserAsync(string userId)
         {
-            return new UserDto()
+            return new UserTracksDto()
             {
                 Login = "UserLogin",
                 Name = "UserName",

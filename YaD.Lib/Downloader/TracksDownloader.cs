@@ -16,10 +16,13 @@ namespace YaD.Lib
 
         public IFileSystem FileSystem => fileSystem;
 
-        public TracksDownloader()
+        public bool CallHandlerOnlyOnFinish { get; set; }
+        public event TrackDownloadProgressHandler OnDownloadProgress;
+
+        public TracksDownloader(IFileSystem fileSystem)
         {
+            this.fileSystem = fileSystem;
             fileDownloader = new FileDownloader();
-            fileSystem = new FileSystem();
             apiClient = new YandexDataApiClient();
         }
 
@@ -71,14 +74,18 @@ namespace YaD.Lib
                     String dest = GetFilePath(pageInfo, track, path);
                     if (fileSystem.IsDownloadedTrack(dest, track))
                     {
-                        // call finish callback
+                        OnDownloadProgress(this, new TrackDownloadProgressEventArgs(track, track.FileSize));
                     }
                     else
                     {
                         String url = apiClient.GetTrackUrl(track.Id);
+                        fileSystem.CreateDirectoryForFilePath(dest);
                         fileDownloader.Download(url, dest, (o, e) =>
                         {
-                            // call track download progress callback
+                            if (!CallHandlerOnlyOnFinish || e.BytesDownloaded >= track.FileSize)
+                            {
+                                OnDownloadProgress(this, new TrackDownloadProgressEventArgs(track, e.BytesDownloaded));
+                            }
                         });
                     }
                 }
@@ -89,21 +96,35 @@ namespace YaD.Lib
         {
             StringBuilder sb = new StringBuilder(128);
             sb.Append(path);
-            sb.Append(Path.PathSeparator);
+            sb.Append(Path.DirectorySeparatorChar);
             if (pageInfo.Type == PageType.Artist)
             {
                 sb.Append(track.AlbumYear);
                 sb.Append(" - ");
-                sb.Append(track.AlbumTitle);
-                sb.Append(Path.PathSeparator);
-                sb.Append(track.Title);
+                sb.Append(fileSystem.ReplaceIllegalChars(track.AlbumTitle));
+                sb.Append(Path.DirectorySeparatorChar);
+            }
+
+            if (pageInfo.Type == PageType.Artist || pageInfo.Type == PageType.Album)
+            {
+                if (track.Position != null)
+                {
+                    if (track.Position.Volume != 0)
+                    {
+                        sb.Append(track.Position.Volume);
+                    }
+                    sb.Append(String.Format("{0:D2}", track.Position.Index));
+                    sb.Append(" - ");
+                }
+                sb.Append(fileSystem.ReplaceIllegalChars(track.Title));
             }
             else
             {
-                sb.Append(track.Artist);
+                sb.Append(fileSystem.ReplaceIllegalChars(track.Artist));
                 sb.Append(" - ");
-                sb.Append(track.Title);
+                sb.Append(fileSystem.ReplaceIllegalChars(track.Title));
             }
+
             sb.Append(".mp3");
 
             return sb.ToString();

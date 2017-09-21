@@ -17,6 +17,12 @@ namespace YaD.Lib
     {
         public long BytesDownloaded { get; set; }
         public TrackDto Track { get; set; }
+
+        public TrackDownloadProgressEventArgs(TrackDto track, long bytesDownloaded)
+        {
+            Track = track;
+            BytesDownloaded = bytesDownloaded;
+        }
     }
 
     public delegate void TrackDownloadProgressHandler(Object sender, TrackDownloadProgressEventArgs e);

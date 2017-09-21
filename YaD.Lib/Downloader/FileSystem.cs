@@ -4,11 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace YaD.Lib
 {
-    class FileSystem : IFileSystem
+    public class FileSystem : IFileSystem
     {
+        private static Regex illegalCharsRegex = new Regex(@"[\\/:*?""<>|]");
+
         public bool DirIsEmpty(String path) => !Directory.Exists(path) || !Directory.EnumerateFileSystemEntries(path).Any();
 
         public void CleanDir(String path)
@@ -28,6 +31,16 @@ namespace YaD.Lib
         {
             FileInfo file = new FileInfo(path);
             return file.Exists && file.Length >= track.FileSize;
+        }
+
+        public void CreateDirectoryForFilePath(string path)
+        {
+            Directory.CreateDirectory(Path.GetDirectoryName(path));
+        }
+
+        public string ReplaceIllegalChars(string s)
+        {
+            return illegalCharsRegex.Replace(s, "_");
         }
     }
 }

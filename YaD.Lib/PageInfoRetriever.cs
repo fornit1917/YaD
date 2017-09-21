@@ -34,7 +34,7 @@ namespace YaD.Lib
             {
                 case PageType.Album:
                     UrlParamsAlbum urlParamsAlbum = urlParams as UrlParamsAlbum;
-                    AlbumDto albumDto = await apiClient.GetAlbumAsync(urlParamsAlbum.AlbumId);
+                    AlbumTracksDto albumDto = await apiClient.GetAlbumAsync(urlParamsAlbum.AlbumId);
                     pageInfo = new PageInfo()
                     {
                         Type = PageType.Album,
@@ -46,7 +46,7 @@ namespace YaD.Lib
                     break;
                 case PageType.Playlist:
                     UrlParamsPlaylist urlParamsPlaylist = urlParams as UrlParamsPlaylist;
-                    PlaylistDto playlistDto = await apiClient.GetPlaylistAsync(urlParamsPlaylist.UserId, urlParamsPlaylist.PlaylistId);
+                    PlaylistTracksDto playlistDto = await apiClient.GetPlaylistAsync(urlParamsPlaylist.UserId, urlParamsPlaylist.PlaylistId);
                     pageInfo = new PageInfo()
                     {
                         Type = PageType.Playlist,
@@ -59,7 +59,7 @@ namespace YaD.Lib
                 
                 case PageType.Artist:
                     UrlParamsArtist urlParamsArtist = urlParams as UrlParamsArtist;
-                    ArtistDto artistDto = await apiClient.GetArtistAsync(urlParamsArtist.ArtistId);
+                    ArtistTracksDto artistDto = await apiClient.GetArtistAsync(urlParamsArtist.ArtistId);
                     pageInfo = new PageInfo()
                     {
                         Type = PageType.Artist,
@@ -72,7 +72,7 @@ namespace YaD.Lib
                 
                 case PageType.User:
                     UrlParamsUser urlParamsUser = urlParams as UrlParamsUser;
-                    UserDto userDto = await apiClient.GetUserAsync(urlParamsUser.UserId);
+                    UserTracksDto userDto = await apiClient.GetUserAsync(urlParamsUser.UserId);
                     pageInfo = new PageInfo()
                     {
                         Type = PageType.User,

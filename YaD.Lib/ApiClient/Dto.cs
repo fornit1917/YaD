@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace YaD.Lib
 {
-    public class PlaylistDto
+    public class PlaylistTracksDto
     {
         public String Image { get; set; }
         public String Owner { get; set; }
@@ -15,7 +15,7 @@ namespace YaD.Lib
         public List<TrackDto> Tracks { get; set; }
     }
 
-    public class AlbumDto
+    public class AlbumTracksDto
     {
         public String Image { get; set; }
         public String Artist { get; set; }
@@ -24,7 +24,7 @@ namespace YaD.Lib
         public List<TrackDto> Tracks { get; set; }
     }
 
-    public class UserDto
+    public class UserTracksDto
     {
         public String Login { get; set; }
         public String Name { get; set; }
@@ -33,12 +33,19 @@ namespace YaD.Lib
         public List<TrackDto> Tracks { get; set; }
     }
 
-    public class ArtistDto
+    public class ArtistTracksDto
     {
         public String Name { get; set; }
         public String Image { get; set; }
         public int[] TrackIds { get; set; }
         public List<TrackDto> Tracks { get; set; }
+    }
+
+    public class AlbumVolumeInfoDto
+    {
+        public int Year { get; set; }
+        public String Title { get; set; }
+        public int VolumeNumber { get; set; }
     }
 
     public class TrackDto
@@ -49,5 +56,12 @@ namespace YaD.Lib
         public int AlbumYear { get; set; }
         public String AlbumTitle { get; set; }
         public int FileSize { get; set; }
+        public TrackPosition Position { get; set; }
+    }
+
+    public class TrackPosition
+    {
+        public int Volume { get; set; }
+        public int Index { get; set; }
     }
 }

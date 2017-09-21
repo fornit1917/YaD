@@ -11,5 +11,7 @@ namespace YaD.Lib
         bool DirIsEmpty(String path);
         bool IsDownloadedTrack(String path, TrackDto track);
         void CleanDir(String path);
+        void CreateDirectoryForFilePath(String path);
+        String ReplaceIllegalChars(String s);
     }
 }

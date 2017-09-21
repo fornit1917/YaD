@@ -13,7 +13,7 @@ namespace YaD.Lib
     {
         private static String SALT = "XGRlBW9FXlekgbPrRHuSiA";
 
-        public async Task<AlbumDto> GetAlbumAsync(string albumId)
+        public async Task<AlbumTracksDto> GetAlbumAsync(string albumId)
         {
             String url = $"https://music.yandex.ru/handlers/album.jsx?album={albumId}&lang=ru&external-domain=music.yandex.ru&overembed=false&ncrnd=0.3792734650109968";
             JToken data = await RequestJsonAsync(url);
@@ -21,31 +21,43 @@ namespace YaD.Lib
             String title = (String)data["title"];
             int year = (int)data["year"];
 
-            return new AlbumDto()
+            var result = new AlbumTracksDto()
             {
                 Image = GetImageUrl((String)data["coverUri"]),
                 Title = title,
                 Artist = String.Join(" & ", from a in data["artists"] select a["name"]),
                 Year = year,
-                Tracks = (from volume in data["volumes"]
-                         from track in volume
-                         select new TrackDto()
-                         {
-                             Id = Convert.ToInt32(track["id"]),
-                             Title = (String)track["title"],
-                             Artist = String.Join(" & ", from a in track["artists"] select a["name"]),
-                             AlbumTitle = title,
-                             AlbumYear = year,
-                             FileSize = (int)track["fileSize"],
-                         }).ToList(),
+                Tracks = (
+                    from volume in data["volumes"]
+                    from track in volume
+                    let version = track["version"]
+                    select new TrackDto()
+                    {
+                        Id = Convert.ToInt32(track["id"]),
+                        Title = version == null ? (String)track["title"] : $"{track["title"]} ({version})",
+                        Artist = String.Join(" & ", from a in track["artists"] select a["name"]),
+                        AlbumTitle = title,
+                        AlbumYear = year,
+                        FileSize = (int)track["fileSize"],
+                    }
+                ).ToList(),
             };
+
+            int i = 1;
+            foreach (TrackDto t in result.Tracks)
+            {
+                t.Position = new TrackPosition() { Volume = 0, Index = i };
+                ++i;
+            }
+
+            return result;
         }
 
-        public async Task<PlaylistDto> GetPlaylistAsync(string userId, string playlistId)
+        public async Task<PlaylistTracksDto> GetPlaylistAsync(string userId, string playlistId)
         {
             String url = $"https://music.yandex.ru/handlers/playlist.jsx?owner={userId}&kinds={playlistId}&light=true&lang=ru&external-domain=music.yandex.ru&overembed=false&ncrnd=0.5872919215747372";
             JToken data = await RequestJsonAsync(url);
-            return new PlaylistDto()
+            return new PlaylistTracksDto()
             {
                 Image = GetImageUrl((String)data["playlist"]["ogImage"]),
                 Owner = (String)data["playlist"]["owner"]["name"],
@@ -55,11 +67,11 @@ namespace YaD.Lib
             };
         }
 
-        public async Task<UserDto> GetUserAsync(string userId)
+        public async Task<UserTracksDto> GetUserAsync(string userId)
         {
             String url = $"https://music.yandex.ru/handlers/library.jsx?owner={userId}&filter=tracks&likeFilter=favorite&sort=&dir=&lang=ru&external-domain=music.yandex.ru&overembed=false&ncrnd=0.7220692948046592";
             JToken data = await RequestJsonAsync(url);
-            return new UserDto()
+            return new UserTracksDto()
             {
                 Login = userId,
                 Name = (String)data["owner"]["name"],
@@ -69,12 +81,12 @@ namespace YaD.Lib
             };
         }
 
-        public async Task<ArtistDto> GetArtistAsync(string artistId)
+        public async Task<ArtistTracksDto> GetArtistAsync(string artistId)
         {
             String url = $"https://music.yandex.ru/handlers/artist.jsx?artist={artistId}&what=tracks&sort=&dir=&lang=ru&external-domain=music.yandex.ru&overembed=false&ncrnd=0.329131147428392";
             JToken data = await RequestJsonAsync(url);
 
-            return new ArtistDto()
+            return new ArtistTracksDto()
             {
                 Name = (String)data["artist"]["name"],
                 Image = GetImageUrl((String)data["artist"]["cover"]["uri"]),
@@ -162,13 +174,19 @@ namespace YaD.Lib
                 from t in data
                 let albums = t["albums"]
                 let album = albums != null && albums.Count() > 0 ? albums[0] : null
+                let version = t["version"]
                 select new TrackDto()
                 {
                     Id = Convert.ToInt32(t["id"]),
-                    Title = (String)t["title"],
+                    Title = version == null ? (String)t["title"] : $"{t["title"]} ({version})",
                     Artist = String.Join(" & ", from a in t["artists"] select a["name"]),
                     AlbumTitle = album == null ? null : (String)album["title"],
                     AlbumYear = album == null || album["year"] == null ? 0 : (int)album["year"],
+                    Position = album == null ? null : new TrackPosition()
+                    {
+                        Volume = (int)album["trackPosition"]["volume"],
+                        Index = (int)album["trackPosition"]["index"],
+                    },
                     FileSize = (int)t["fileSize"],
                 }
              ).ToList();
