@@ -87,8 +87,22 @@ namespace YaD.Lib
                                 OnDownloadProgress(this, new TrackDownloadProgressEventArgs(track, e.BytesDownloaded));
                             }
                         });
+
+                        AddTagsToFile(dest, track);
                     }
                 }
+            }
+        }
+
+        private void AddTagsToFile(String fileName, TrackDto track)
+        {
+            using (TagLib.File f = TagLib.File.Create(fileName))
+            {
+                f.Tag.Title = track.Title;
+                f.Tag.Performers = new[] { track.Artist };
+                f.Tag.Year = (uint)track.AlbumYear;
+                f.Tag.Album = track.AlbumTitle;
+                f.Save();
             }
         }
 
