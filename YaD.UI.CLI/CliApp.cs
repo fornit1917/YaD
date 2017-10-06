@@ -10,93 +10,54 @@ namespace YaD.UI.CLI
 {
     class CliApp
     {
-        static PageInfoRetriever pageInfoRetriever = new PageInfoRetriever();
-
         static void Main(string[] args)
         {
-            Test();
-            Console.ReadLine();
-            /*
+            PageInfoRetriever pageInfoRetriever = new PageInfoRetriever();
+            IFileSystem fs = new FileSystem();
+
             while (true)
             {
-                Console.Write("Enter URL: ");
+                Console.WriteLine("Enter URL of Album, Playlist, Artist or User. Or enter q for exit");
+                Console.Write("URL: ");
                 String url = Console.ReadLine();
                 if (url == "q")
                 {
-                    break;
+                    Console.WriteLine("Bye!");
+                    return;
                 }
 
-                ProcessUrl(url);
-            }
-            */
-        }
+                Console.WriteLine("Load information......");
+                PageInfo pageInfo = pageInfoRetriever.GetPageInfoAsync(url).Result;
+                Console.WriteLine("Owner: " + pageInfo.TracklistOwner);
+                Console.WriteLine("Title: " + pageInfo.TracklistTitle);
+                Console.WriteLine("Tracks Count: " + pageInfo.Tracks.TotalCount);
 
-        static async void Test()
-        {
-            YandexDataApiClient apiClient = new YandexDataApiClient();
-            String url = apiClient.GetTrackUrl(5533086);
-            Console.WriteLine(url);
-
-            url = "https://music.yandex.ru/album/4413792";
-            PageInfo pageInfo = await pageInfoRetriever.GetPageInfoAsync(url);
-
-            Console.WriteLine("Image: " + pageInfo.Image);
-            Console.WriteLine("Owner: " + pageInfo.TracklistOwner);
-            Console.WriteLine("Title: " + pageInfo.TracklistTitle);
-
-            Console.WriteLine("---------------------");
-
-            url = "https://music.yandex.ru/users/vit.fornit.1917/playlists/1003";
-            pageInfo = await pageInfoRetriever.GetPageInfoAsync(url);
-            Console.WriteLine("Image: " + pageInfo.Image);
-            Console.WriteLine("Owner: " + pageInfo.TracklistOwner);
-            Console.WriteLine("Title: " + pageInfo.TracklistTitle);
-
-            Console.WriteLine("----------------------");
-
-            IFileSystem fs = new FileSystem();
-            TracksDownloader td = new TracksDownloader(fs) { CallHandlerOnlyOnFinish = true };
-            int i = 1;
-            Object sync = new Object();
-            td.OnDownloadProgress += (o, e) =>
-            {
-                lock (o)
+                Console.Write("Enter path for downloading: ");
+                String path = Console.ReadLine();
+                if (!fs.DirIsEmpty(path))
                 {
-                    String s = $"{e.Track.Title}: {i} / {pageInfo.Tracks.TotalCount}";
-                    Console.WriteLine(s);
-                    i++;
+                    Console.WriteLine("Specified directory exists and is not empty!");
+                    while (true)
+                    {
+                        Console.WriteLine("Do you want to delete all files from directory before start? y/n");
+                        String flag = Console.ReadLine().ToUpper();
+                        if (flag == "Y")
+                        {
+                            fs.CleanDir(path);
+                            break;
+                        }
+                        else if (flag == "N")
+                        {
+                            break;
+                        }
+                    }
                 }
-            };
-            td.StartDownload("D:\\tmp\\music", pageInfo, 10);
 
-            url = "https://music.yandex.ru/artist/36825";
-            pageInfo = await pageInfoRetriever.GetPageInfoAsync(url);
-            Console.WriteLine("Image: " + pageInfo.Image);
-            Console.WriteLine("Owner: " + pageInfo.TracklistOwner);
-            Console.WriteLine("Title: " + pageInfo.TracklistTitle);
-
-            url = "https://music.yandex.ru/users/vit.fornit.1917/tracks";
-            pageInfo = await pageInfoRetriever.GetPageInfoAsync(url);
-            Console.WriteLine("Image: " + pageInfo.Image);
-            Console.WriteLine("Owner: " + pageInfo.TracklistOwner);
-            Console.WriteLine("Title: " + pageInfo.TracklistTitle);
-
-            Console.WriteLine("----------------------");
-
-
-            Console.ReadLine();
-        }
-
-        static async void ProcessUrl(String url)
-        {
-            PageInfo pageInfo = await pageInfoRetriever.GetPageInfoAsync(url);
-            if (pageInfo == null)
-            {
-                Console.WriteLine("Unknown page!");
-                return;
+                TracksDownloader td = new TracksDownloader(fs) { CallHandlerOnlyOnFinish = true };
+                ProgressPrinter progressPrinter = new ProgressPrinter(pageInfo.Tracks.TotalCount);
+                td.OnDownloadProgress += progressPrinter.OnTrackDownloaded;
+                td.StartDownload(path, pageInfo).Wait();
             }
-
-            Console.WriteLine("Page: {0}", pageInfo.TracklistTitle);
         }
     }
 }

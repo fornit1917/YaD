@@ -33,7 +33,7 @@ namespace YaD.Lib
             this.apiClient = apiClient;
         }
 
-        public void StartDownload(String path, PageInfo pageInfo, int workersCount = 3)
+        public Task StartDownload(String path, PageInfo pageInfo, int workersCount = 5)
         {
             BlockingCollection<TrackDto> queue = new BlockingCollection<TrackDto>();
 
@@ -46,12 +46,14 @@ namespace YaD.Lib
                 queue.CompleteAdding();
             });
 
-
+            Task[] downloaderTasks = new Task[workersCount];
             // run downloaders
             for (int i = 0; i < workersCount; ++i)
             {
-                Task downloader = Task.Factory.StartNew(() => { DownloadWorker(queue, pageInfo, path); });
+                downloaderTasks[i] = Task.Factory.StartNew(() => { DownloadWorker(queue, pageInfo, path); });
             }
+
+            return Task.WhenAll(downloaderTasks);
         }
 
         private void DownloadWorker(BlockingCollection<TrackDto> queue, PageInfo pageInfo, String path)
