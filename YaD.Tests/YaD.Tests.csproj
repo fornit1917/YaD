@@ -52,6 +52,7 @@
     <Compile Include="Mocks\DataApiClientMock.cs" />
     <Compile Include="PageInfoRetrieverTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TrackListLazyLoadingTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
