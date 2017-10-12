@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Threading;
 
 namespace YaD.Lib
 {
@@ -13,6 +14,7 @@ namespace YaD.Lib
         private IFileDownloader fileDownloader;
         private IFileSystem fileSystem;
         private IDataApiClient apiClient;
+        private CancellationTokenSource cts;
 
         public IFileSystem FileSystem => fileSystem;
 
@@ -35,6 +37,7 @@ namespace YaD.Lib
 
         public Task StartDownload(String path, PageInfo pageInfo, int workersCount = 5)
         {
+            cts = new CancellationTokenSource();
             BlockingCollection<TrackDto> queue = new BlockingCollection<TrackDto>();
 
             Task producer = Task.Factory.StartNew(() =>
@@ -56,12 +59,22 @@ namespace YaD.Lib
             return Task.WhenAll(downloaderTasks);
         }
 
+        public void Cancel()
+        {
+            cts.Cancel();
+        }
+
         private void DownloadWorker(BlockingCollection<TrackDto> queue, PageInfo pageInfo, String path)
         {
             bool hasTracks = true;
             TrackDto track = null;
             while (hasTracks)
             {
+                if (cts.Token.IsCancellationRequested)
+                {
+                    cts.Token.ThrowIfCancellationRequested();
+                }
+
                 try
                 {
                     track = queue.Take();
@@ -89,7 +102,7 @@ namespace YaD.Lib
                                 OnDownloadProgress(this, new TrackDownloadProgressEventArgs(track, e.BytesDownloaded));
                             }
                         });
-
+                       
                         AddTagsToFile(dest, track);
                     }
                 }
