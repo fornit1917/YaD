@@ -12,6 +12,18 @@ namespace YaD.UI.CLI
     {
         static void Main(string[] args)
         {
+            if (args.Length == 2)
+            {
+                DownloadWithoutInteractive(args[0], args[1]);
+            }
+            else
+            {
+                RunInteractiveMode();
+            }
+        }
+
+        private static void RunInteractiveMode()
+        {
             PageInfoRetriever pageInfoRetriever = new PageInfoRetriever();
             IFileSystem fs = new FileSystem();
 
@@ -44,13 +56,18 @@ namespace YaD.UI.CLI
                     Console.WriteLine("-----------");
                     continue;
                 }
-                
+
                 Console.WriteLine("Owner: " + pageInfo.TracklistOwner);
                 Console.WriteLine("Title: " + pageInfo.TracklistTitle);
                 Console.WriteLine("Tracks Count: " + pageInfo.Tracks.TotalCount);
 
-                Console.Write("Enter path for downloading: ");
+                Console.Write("Enter path for downloading or /cancel: ");
                 String path = Console.ReadLine();
+                if (path == "/cancel")
+                {
+                    continue;
+                }
+
                 if (!fs.DirIsEmpty(path))
                 {
                     Console.WriteLine("Specified directory exists and is not empty!");
@@ -70,25 +87,53 @@ namespace YaD.UI.CLI
                     }
                 }
 
-                TracksDownloader td = new TracksDownloader(fs) { CallHandlerOnlyOnFinish = true };
-                ProgressPrinter progressPrinter = new ProgressPrinter(pageInfo.Tracks.TotalCount);
-                td.OnDownloadProgress += progressPrinter.OnTrackDownloaded;
-                Task downloadTask = td.StartDownload(path, pageInfo);
-                try
+                Download(pageInfo, fs, path);
+            }
+        }
+
+        private static void DownloadWithoutInteractive(String url, String path)
+        {
+            PageInfoRetriever pageInfoRetriever = new PageInfoRetriever();
+            IFileSystem fs = new FileSystem();
+            Console.WriteLine("Load information......");
+            PageInfo pageInfo;
+            try
+            {
+                pageInfo = pageInfoRetriever.GetPageInfoAsync(url).Result;
+                if (pageInfo == null)
                 {
-                    downloadTask.Wait();
+                    Console.WriteLine("Incorrect or unsupported url");
                 }
-                catch (Exception e)
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error! Cannot load inforamtion");
+                Console.WriteLine(e.Message);
+                Console.WriteLine("-----------");
+                return;
+            }
+
+            Download(pageInfo, fs, path);
+        }
+
+        private static void Download(PageInfo pageInfo, IFileSystem fs, String path)
+        {
+            TracksDownloader td = new TracksDownloader(fs) { CallHandlerOnlyOnFinish = true };
+            ProgressPrinter progressPrinter = new ProgressPrinter(pageInfo.Tracks.TotalCount);
+            td.OnDownloadProgress += progressPrinter.OnTrackDownloaded;
+            Task downloadTask = td.StartDownload(path, pageInfo);
+            try
+            {
+                downloadTask.Wait();
+            }
+            catch (Exception e)
+            {
+                td.Cancel();
+                Console.WriteLine("Error! Cannot download track!");
+                if (e != null)
                 {
-                    td.Cancel();
-                    Console.WriteLine("Error! Cannot download track!");
-                    if (e != null)
-                    {
-                        Console.WriteLine(e.Message);
-                    }
-                    Console.WriteLine("----------");
+                    Console.WriteLine(e.Message);
                 }
-            
             }
         }
     }
